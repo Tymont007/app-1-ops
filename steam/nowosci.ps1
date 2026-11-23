@@ -1,11 +1,5 @@
-$ErrorActionPreference = "Stop"
-$appid = 570
-
-$urlApi = "https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=$appid&count=1&maxlength=300&feeds=steam_community_announcements"
-$odpowiedz = Invoke-RestMethod -Uri $urlApi -UseBasicParsing -TimeoutSec 20
-
-$news = $odpowiedz.appnews.newsitems[0]
-
-Write-Host "Ostatni komunikat tworcow:"
-Write-Host "Tytul: $($news.title)"
-Write-Host "Link: $($news.url)"
+$gra = Get-Content -LiteralPath "steam/gra.json" -Raw | ConvertFrom-Json
+$url = "https://api.steampowered.com/ISteamNews/GetNewsForApp/v2/?appid=$($gra.appid)&count=1"
+$response = Invoke-RestMethod -Uri $url -Method Get
+$news = $response.appnews.newsitems[0]
+Write-Output "$($gra.nazwa): Najnowszy komunikat: $($news.title) - $($news.url)"
