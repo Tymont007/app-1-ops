@@ -1,19 +1,15 @@
 pipeline {
     agent any
+
     stages {
         stage('Gracze online') {
             steps {
-                powershell '''
-                    $ErrorActionPreference = 'Stop'
-                    $appid = 570
-                    $uri = "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=$appid"
-                    
-                    Write-Host "Pobieranie liczby graczy dla App ID: $appid"
-                    $response = Invoke-RestMethod -Uri $uri -UseBasicParsing -TimeoutSec 20
-                    
-                    Write-Host "ID Gry: $appid"
-                    Write-Host "Aktywni gracze: $($response.response.player_count)"
-                '''
+                powershell script: './steam/gracze.ps1'
+            }
+        }
+        stage('Nowosci od tworcow') {
+            steps {
+                powershell script: './steam/nowosci.ps1'
             }
         }
     }
