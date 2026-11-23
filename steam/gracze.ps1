@@ -1,4 +1,5 @@
-$ErrorActionPreference = "Stop"
-$appid = 570
-$dane = Invoke-RestMethod -Uri "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v0001/?appid=$appid&format=json" -UseBasicParsing
-Write-Host "Liczba graczy online w Dota 2: $($dane.response.player_count)"
+$gra = Get-Content -LiteralPath "steam/gra.json" -Raw | ConvertFrom-Json
+$url = "https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?appid=$($gra.appid)"
+$response = Invoke-RestMethod -Uri $url -Method Get
+$players = $response.response.player_count
+Write-Output "$($gra.nazwa): Aktualna liczba graczy online: $players"
