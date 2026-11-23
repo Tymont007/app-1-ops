@@ -6,6 +6,6 @@ $odpowiedz = Invoke-RestMethod -Uri $urlApi -UseBasicParsing -TimeoutSec 20
 
 $news = $odpowiedz.appnews.newsitems[0]
 
-Write-Host "Ostatni komunikat twórców:"
-Write-Host "Tytuł: $($news.title)"
+Write-Host "Ostatni komunikat tworcow:"
+Write-Host "Tytul: $($news.title)"
 Write-Host "Link: $($news.url)"
